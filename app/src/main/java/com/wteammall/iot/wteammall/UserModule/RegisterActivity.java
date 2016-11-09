@@ -2,6 +2,7 @@ package com.wteammall.iot.wteammall.UserModule;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 
 import com.wteammall.iot.wteammall.R;
 
