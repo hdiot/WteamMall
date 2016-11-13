@@ -2,6 +2,8 @@ package com.wteammall.iot.wteammall.Utils;
 
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Telephony;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,27 +22,10 @@ import java.util.Map;
  */
 public class URLUtils {
 
-    private static final int SERVICE_FAILED = 0;
-    private static final int SERVICE_SUCCEED = 1;
-
     private Map<String, String> RequestParams;
     private String mUri;
     private URL mUrl;
     private String mResultData;
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
-
-    /**
-     * 当只用get方式请求网络时调用该构造函数
-     */
-    public URLUtils(String uri) {
-        mUri = uri;
-    }
 
     /**
      * 当使用post请求网络时调用该构造函数
@@ -50,10 +35,10 @@ public class URLUtils {
         mUri = uri;
     }
 
-    public void post() {
-
-        new Thread(new Runnable() {
+    public String post() throws InterruptedException {
+        Thread thread =  new Thread(new Runnable() {
             Message message = new Message();
+
             @Override
             public void run() {
                 try {
@@ -62,64 +47,33 @@ public class URLUtils {
                     urlConn.setDoInput(true);//设置输入采用字节流
                     urlConn.setDoOutput(true);//设置输出采用字节流
                     urlConn.setRequestMethod("POST");
-                    urlConn.setConnectTimeout(3000);
+                    urlConn.setConnectTimeout(5000);
+                    urlConn.setReadTimeout(5000);
                     urlConn.connect();//连接服务器发送消息
                     OutputStream outputStream = urlConn.getOutputStream();
                     outputStream.write(getRequestParam(RequestParams).toString().getBytes());
+
+                    Log.d("param",getRequestParam(RequestParams).toString());
 
                     //接收数据
                     int response = urlConn.getResponseCode();//获得服务器的响应码
                     if (response == HttpURLConnection.HTTP_OK) {
                         InputStream inputStream = urlConn.getInputStream();
-
-                        message.what = SERVICE_SUCCEED;
-                        message.obj = dealResponStream(inputStream);
-
+                        mResultData = dealResponStream(inputStream);
                     }
                 } catch (MalformedURLException e) {
-                    message.what = SERVICE_FAILED;
                     e.printStackTrace();
                 } catch (ProtocolException e) {
-                    message.what = SERVICE_FAILED;
                     e.printStackTrace();
                 } catch (IOException e) {
-                    message.what = SERVICE_FAILED;
                     e.printStackTrace();
-                }finally {
-                    handler.handleMessage(message);
-                }
-            }
-        }).start();
-    }
-
-    public void get() {
-        Thread thread = new Thread(new Runnable() {
-            Message message = new Message();
-            @Override
-            public void run() {
-                try {
-                    mUrl = new URL(mUri);
-                    HttpURLConnection urlConnection = (HttpURLConnection) mUrl.openConnection();
-                    urlConnection.setRequestMethod("GET");
-                    urlConnection.getResponseCode();
-                    urlConnection.getInputStream();
-
-                    int response = urlConnection.getResponseCode();//获得服务器的响应码
-                    if (response == HttpURLConnection.HTTP_OK) {
-                        InputStream inputStream = urlConnection.getInputStream();
-
-                        message.what = SERVICE_SUCCEED;
-                        message.obj = dealResponStream(inputStream);
-                    }
-
-                } catch (IOException e) {
-                    message.what = SERVICE_FAILED;
-                    e.printStackTrace();
-                }finally {
-                    handler.handleMessage(message);
                 }
             }
         });
+        thread.start();
+        thread.join();
+
+        return mResultData;
     }
 
     /**

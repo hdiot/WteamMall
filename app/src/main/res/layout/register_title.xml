@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_gray">
+
+    <Button
+        android:id="@+id/bt_register_back"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="10dip"
+        android:gravity="left|center"
+        android:text="@string/TitleBack"
+        android:textSize="20sp"
+        android:background="@drawable/selector_btn_title"/>
+
+    <Button
+        android:id="@+id/bt_login_register"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="10dip"
+        android:gravity="right|center"
+        android:text="@string/TitleLogin"
+        android:textSize="20sp"
+        android:background="@drawable/selector_btn_title"/>
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_gray">
+
+    <Button
+        android:id="@+id/bt_login_back"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="5dip"
+        android:gravity="center"
+        android:background="@drawable/selector_btn_title"
+        android:textSize="20sp"
+        android:text="@string/TitleBack" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:text="@string/LOGIN"/>
+
+    <Button
+        android:id="@+id/bt_login_register"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="5dip"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="@drawable/selector_btn_title"
+        android:text="@string/LOGIN" />
+</LinearLayout>
