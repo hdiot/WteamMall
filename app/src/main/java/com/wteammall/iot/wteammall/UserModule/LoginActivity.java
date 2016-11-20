@@ -1,17 +1,17 @@
 package com.wteammall.iot.wteammall.UserModule;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.ArrayMap;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,40 +19,93 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wteammall.iot.wteammall.R;
-import com.wteammall.iot.wteammall.Utils.MD5Utils;
-import com.wteammall.iot.wteammall.Utils.URLUtils;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.StringReader;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText ET_UserID;         //用户名编辑框
     EditText ET_Password;       //密码编辑框
     EditText ET_VCode;          //验证码
-    static ImageView IV_VCode;            //验证码
+    ImageView IV_VCode;            //验证码
     Button BT_Login;            //登录按钮
     Button BT_Register;         //标题栏注册按钮
     Button BT_Back;             //标题栏返回按钮
     TextView TV_ForgetPWD;      //忘记密码文本框
+
+    TextView TV_UserNameError;  //用户名错误提示文本框
+    TextView TV_PasswordError;  //密码错误提示文本框
+    TextView TV_VCodeError;     //验证码错误提示文本框
 
     String UserID;              //用户ID
     String Password;            //密码
     String VCode;               //验证码
     String IMEI;                //android机器码
 
-    Map<String, String> mReruestParams;
+    String succeed = " ";
+    String username = " ";
+    String password = " ";
+    String vCode = " ";
 
-    static  Handler handler = new Handler(){
+    SharedPreferences sharedPreferences;
+
+    Handler handler = new Handler() {
         //此方法在主线程中调用，可以用来刷新ui
         public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0:
+                    IV_VCode.setImageBitmap((Bitmap) msg.obj);
+                    break;
+                case 1:
+                    Log.d("Login", (String) msg.obj);
+                    String result = (String) msg.obj;
+                    try {
+                        succeed = " ";
+                        username = " ";
+                        password = " ";
+                        vCode = " ";
+                        JSONObject jsonObject = new JSONObject();
+                        StringReader stringReader = new StringReader(result);
+                        JsonReader jsonReader = new JsonReader(stringReader);
+                        jsonReader.beginObject();
+                        if(jsonReader.nextName().contains("msg")){
+                            succeed = jsonReader.nextString();
+                            Toast.makeText(LoginActivity.this,succeed,Toast.LENGTH_SHORT).show();
+                            //跳转至主页面
+                        }else{
+                            jsonReader.beginObject();
+                            while (jsonReader.hasNext()){
+                                String errorinfo = jsonReader.nextName();
+                                if (errorinfo.contains("username")){
+                                    username = jsonReader.nextString();
+                                }else if(errorinfo.contains("password")){
+                                    password = jsonReader.nextString();
+                                }else if (errorinfo.contains("vCode")){
+                                    vCode = jsonReader.nextString();
+                                }
+                            }
+                            jsonReader.endObject();
+                        }
+                        jsonReader.endObject();
 
-            IV_VCode.setImageBitmap((Bitmap) msg.obj);
+                        TV_UserNameError.setText(username);
+                        TV_PasswordError.setText(password);
+                        TV_VCodeError.setText(vCode);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
         }
     };
 
@@ -66,59 +119,50 @@ public class LoginActivity extends AppCompatActivity {
         //加载view
         initView();
 
+        sharedPreferences = getSharedPreferences("JSESSIONID", MODE_PRIVATE);
+
         //
-        getVCode();
+        getVCode(sharedPreferences);
 
         //设置监听
         setListener();
 
     }
 
-    public void getVCode() {
+    public void getVCode(final SharedPreferences sp) {
 
-        Thread t = new Thread(){
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                //下载图片
-                //1.确定网址
-                String path = "http://mywebtest.cn/Hall/VerifyCode";
                 try {
-                    //2.把网址封装成一个url对象
-                    URL url = new URL(path);
-                    //3.获取客户端和服务器的连接对象，此时还没有建立连接
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    //4.对连接对象进行初始化
-                    //设置请求方法，注意大写
-                    conn.setRequestMethod("GET");
-                    //设置连接超时
-                    conn.setConnectTimeout(5000);
-                    //设置读取超时
-                    conn.setReadTimeout(5000);
-                    //5.发送请求，与服务器建立连接
-                    conn.connect();
-                    //如果响应码为200，说明请求成功
-                    if(conn.getResponseCode() == 200){
-                        //获取服务器响应头中的流，流里的数据就是客户端请求的数据
-                        InputStream is = conn.getInputStream();
-                        //读取出流里的数据，并构造成位图对象
-                        Bitmap bm = BitmapFactory.decodeStream(is);
-
-
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url(ValueUtils.URL_VERIFYCODE).build();
+                    Response response = client.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
                         Message msg = new Message();
                         //消息对象可以携带数据
                         msg.obj = bm;
-                        msg.what = 1;
+                        msg.what = 0;
                         //把消息发送至主线程的消息队列
                         handler.sendMessage(msg);
 
-                    }
-                } catch (Exception e) {
+                        String Set_Cookie = response.header("Set-Cookie").toString();
+                        String Cookie[] = Set_Cookie.split(";");
+                        String jsid = Cookie[0];
+                        sp.edit().putString("jsessionid", jsid).commit();
 
+                        Log.d("JSID", jsid);
+
+                    } else {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        };
-        t.start();
+        }).start();
+
     }
 
 
@@ -126,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
      * 加载view
      */
     public void initView() {
+
         BT_Login = (Button) findViewById(R.id.bt_login_sure);
         BT_Register = (Button) findViewById(R.id.bt_login_register);
         BT_Back = (Button) findViewById(R.id.bt_login_back);
@@ -134,20 +179,22 @@ public class LoginActivity extends AppCompatActivity {
         ET_VCode = (EditText) findViewById(R.id.et_login_vcode);
         TV_ForgetPWD = (TextView) findViewById(R.id.et_forgetPassword);
         IV_VCode = (ImageView) findViewById(R.id.iv_login_vcode);
+
+        TV_PasswordError = (TextView)findViewById(R.id.tv_login_passerror);
+        TV_UserNameError = (TextView)findViewById(R.id.tv_login_usernameerror);
+        TV_VCodeError = (TextView)findViewById(R.id.tv_login_vcodeerror);
+
     }
 
     /**
      * 设置监听
      */
     public void setListener() {
+
         BT_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    login();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                login();
             }
         });
 
@@ -155,7 +202,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
             }
         });
 
@@ -169,14 +215,14 @@ public class LoginActivity extends AppCompatActivity {
         TV_ForgetPWD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(LoginActivity.this,ResetPassActivity.class));
             }
         });
 
         IV_VCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //getVCode();
+                getVCode(sharedPreferences);
             }
         });
     }
@@ -184,20 +230,61 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * @return 登录成功返回true
      */
-    public void login() throws InterruptedException {
+    public void login() {
+
         UserID = ET_UserID.getText().toString();
-        Password = MD5Utils.encode(ET_Password.getText().toString());
+        //Password = MD5Utils.encode(ET_Password.getText().toString());
+        Password = ET_Password.getText().toString();
         VCode = ET_VCode.getText().toString();
 
-        mReruestParams = new HashMap<String,String>();
-        mReruestParams.put("token", IMEI);
-        mReruestParams.put("vCode", VCode);
-        mReruestParams.put("password", Password);
-        mReruestParams.put("username", UserID);
-        //登录网络请求
-        URLUtils urlUtils = new URLUtils(ValueUtils.URL_LOGIN, mReruestParams);
-        Log.d("login",urlUtils.post());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                try {
+                    FormBody requestBody = new FormBody.Builder()
+                            .add("username", UserID)
+                            .add("password", Password)
+                            .add("vCode", VCode)
+                            .add("token", IMEI)
+                            .build();
+                    Log.d("FormBody", requestBody.toString());
+                    Request request = new Request.Builder()
+                            .post(requestBody)
+                            .url(ValueUtils.URL_LOGIN)
+                            .addHeader("Cookie", sharedPreferences.getString("jsessionid", "").toString())
+                            .build();
 
+                    Response response = okHttpClient.newCall(request).execute();
+
+                    if (response.isSuccessful()) {
+
+                        Message msg = new Message();
+                        //消息对象可以携带数据
+                        msg.obj = response.body().string();
+                        msg.what = 1;
+                        //把消息发送至主线程的消息队列
+                        handler.sendMessage(msg);
+
+                        Log.d("TMD", "没有GGGG了");
+
+
+                    } else {
+                        Log.d("TMD", "GGGG了");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
+
+    public void setErrorTVInvisiable(){
+        TV_UserNameError.setVisibility(View.INVISIBLE);
+        TV_PasswordError.setVisibility(View.INVISIBLE);
+        TV_VCodeError.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -26,6 +26,6 @@ public class ValueUtils {
     /*请求发送重置的验证码链接*/
     public static String URL_SEND_RESET_CODE_TO_EMAIL = "http://mywebtest.cn/Hall/userreqResetPass.action";
     /*进行密码重置链接*/
-    public static String URL_RESET_PASS = "http://mywebtest.cn/Hall/userrestPass.action";
+    public static String URL_RESET_PASS = "http://mywebtest.cn/Hall/userresetPass.action";
 
 }

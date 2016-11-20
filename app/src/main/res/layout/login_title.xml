@@ -33,5 +33,6 @@
         android:gravity="center"
         android:textSize="20sp"
         android:background="@drawable/selector_btn_title"
-        android:text="@string/LOGIN" />
+        android:text="@string/TITLE_REGISTER" />
+
 </LinearLayout>

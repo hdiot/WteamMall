@@ -14,8 +14,9 @@
         android:layout_alignParentTop="true" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/login_title"
         android:id="@+id/relativeLayout">
 
@@ -31,66 +32,43 @@
             android:id="@+id/et_login_userId"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@+id/iv_login_head"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
             android:background="#fff"
             android:hint="@string/ACCOUNT" />
 
-        <View
-            android:layout_width="300dp"
-            android:layout_height="1dp"
+        <TextView
+            android:id="@+id/tv_login_usernameerror"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
             android:layout_below="@+id/et_login_userId"
-            android:layout_centerHorizontal="true"
-            android:background="@color/gray" />
+            android:textColor="@color/red"/>
+
 
         <EditText
             android:id="@+id/et_login_pwd"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_below="@+id/et_login_userId"
+            android:layout_below="@+id/tv_login_usernameerror"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="1dp"
             android:background="#fff"
             android:inputType="textPassword"
             android:hint="@string/PWD" />
 
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/tv_login_passerror"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
             android:layout_below="@+id/et_login_pwd"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/cb_login_remPwd"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="@string/REMEMBEM_PWD" />
-
-            <TextView
-                android:id="@+id/et_forgetPassword"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/red"
-                android:textSize="20sp"
-                android:text="忘记密码?"/>
-
-        </LinearLayout>
+            android:textColor="@color/red"/>
 
         <LinearLayout
+            android:id="@+id/lineearlayout_login"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
+            android:layout_below="@+id/tv_login_passerror"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -113,6 +91,12 @@
                 />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_login_vcodeerror"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/lineearlayout_login"
+            android:textColor="@color/red"/>
 
     </RelativeLayout>
 
@@ -126,5 +110,17 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="15dp"/>
 
+    <TextView
+        android:id="@+id/et_forgetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:text="忘记密码?"
+        android:layout_below="@+id/bt_login_sure"
+        android:layout_alignRight="@+id/bt_login_sure"
+        android:layout_alignEnd="@+id/bt_login_sure"
+        android:layout_marginTop="25dp" />
 
 </RelativeLayout>

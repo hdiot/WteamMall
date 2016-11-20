@@ -7,7 +7,7 @@
     <string name="TitleBack">＜ 返回</string>
     <string name="TitleLogin">注册 ＞</string>
     <string name="VCODE">验证码</string>
-    <String name="BACK">返回</String>
-    <String name="VCODE">验证码</String>
+    <string name="BACK">返回</string>
+    <string name="TITLE_REGISTER">注册</string>
 
 </resources>

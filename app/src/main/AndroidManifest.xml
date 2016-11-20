@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wteammall.iot.wteammall">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +11,40 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".UserModule.RegisterActivity" />
-        <activity android:name=".UserModule.LoginActivity" />
-        <activity android:name=".UserModule.PersonalCenterActivity"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.RegisterActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.LoginActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.PersonalCenterActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.PersionInformatioActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.PersionMessageActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.PersionCouponActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UserModule.PersionOrderActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".UserModule.ResetPassActivity"></activity>
     </application>
 
 </manifest>

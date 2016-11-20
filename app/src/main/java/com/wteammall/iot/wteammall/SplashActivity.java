@@ -1,9 +1,8 @@
 package com.wteammall.iot.wteammall;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * 启动界面（*闪屏页面）
@@ -17,6 +16,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         //进入首页
         startActivity(new Intent(SplashActivity.this,MainActivity.class));
+        finish();
 
     }
 }
