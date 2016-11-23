@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserModule.PersionalCenter.PersionOrderActivity">
+    tools:context="com.wteammall.iot.wteammall.UserModule.PersionalCenter.PersionIntegralActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:background="@color/grey">
+
         <TextView
-            android:id="@+id/tv_persion_ordertitle_back"
+            android:id="@+id/tv_per_integra_title_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -24,10 +26,10 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:textSize="20sp"
-            android:text="我的订单"/>
+            android:text="我的积分"/>
 
         <TextView
-            android:id="@+id/tv_persion_order_title_mainpage"
+            android:id="@+id/tv_per_integra_title_mainpage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -38,10 +40,8 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lv_persion_order"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent">
     </ListView>
 
 </LinearLayout>

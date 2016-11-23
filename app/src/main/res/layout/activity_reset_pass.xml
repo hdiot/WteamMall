@@ -92,8 +92,7 @@
                 android:id="@+id/iv_resetpass_vcode"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/lightgray" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView
@@ -135,7 +134,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="新密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:enabled="false"/>
 
         <TextView
             android:id="@+id/tv_resetpass_newpasserror"
@@ -148,7 +148,8 @@
             android:id="@+id/bt_resetpass_reseting"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="确定" />
+            android:text="确定"
+            android:enabled="false"/>
 
     </LinearLayout>
 

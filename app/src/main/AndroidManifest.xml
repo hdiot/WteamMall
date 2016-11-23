@@ -30,21 +30,23 @@
             android:name=".UserModule.LoginActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".UserModule.PersonalCenterActivity"
+            android:name=".UserModule.PersionalCenter.PersonalCenterActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".UserModule.PersionInformatioActivity"
+            android:name=".UserModule.PersionalCenter.PersionInformationActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".UserModule.PersionMessageActivity"
+            android:name=".UserModule.PersionalCenter.PersionMessageActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".UserModule.PersionCouponActivity"
+            android:name=".UserModule.PersionalCenter.PersionCouponActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".UserModule.PersionOrderActivity"
+            android:name=".UserModule.PersionalCenter.PersionOrderActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".UserModule.ResetPassActivity"></activity>
+        <activity android:name=".UserModule.ResetPassActivity" />
+        <activity android:name=".UserModule.PersionalCenter.PersionIntegralActivity" />
+        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity"></activity>
     </application>
 
 </manifest>

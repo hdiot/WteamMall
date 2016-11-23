@@ -1,14 +1,16 @@
-package com.wteammall.iot.wteammall.UserModule;
+package com.wteammall.iot.wteammall.UserModule.PersionalCenter;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
 
 public class PersonalCenterActivity extends AppCompatActivity {
@@ -19,8 +21,7 @@ public class PersonalCenterActivity extends AppCompatActivity {
     LinearLayout LY_Persion_Coupon;
     LinearLayout LY_Persion_Integal;
 
-    ImageView IV_HeaderView;
-    TextView TV_HeaderText;
+    TextView TV_BACK;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -31,8 +32,6 @@ public class PersonalCenterActivity extends AppCompatActivity {
         initView();
         setListener();
 
-        IV_HeaderView.setImageIcon(null);
-        TV_HeaderText.setText("");
     }
 
     public void initView(){
@@ -42,9 +41,7 @@ public class PersonalCenterActivity extends AppCompatActivity {
         LY_Persion_Msg = (LinearLayout) findViewById(R.id.ly_persion_persionmsg);
         LY_Persion_Integal = (LinearLayout) findViewById(R.id.ly_persion_persionintegral);
 
-        IV_HeaderView = (ImageView)findViewById(R.id.iv_persion_head);
-        TV_HeaderText = (TextView)findViewById(R.id.tv_persion_header);
-
+        TV_BACK = (TextView) findViewById(R.id.tv_per_center_title_back);
     }
 
     public void setListener(){
@@ -52,31 +49,43 @@ public class PersonalCenterActivity extends AppCompatActivity {
         LY_Persion_Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(PersonalCenterActivity.this,"进入订单页面",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PersonalCenterActivity.this,PersionOrderActivity.class));
             }
         });
         LY_Persion_Msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(PersonalCenterActivity.this,"进入信消息页面",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PersonalCenterActivity.this,PersionMessageActivity.class));
             }
         });
         LY_Persion_Info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(PersonalCenterActivity.this,"进入个人信息页面",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PersonalCenterActivity.this,PersionInformationActivity.class));
             }
         });
         LY_Persion_Coupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(PersonalCenterActivity.this,"进入优惠券页面",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PersonalCenterActivity.this,PersionCouponActivity.class));
             }
         });
         LY_Persion_Integal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(PersonalCenterActivity.this,"进入积分页面",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(PersonalCenterActivity.this,PersionIntegralActivity.class));
+            }
+        });
 
+        TV_BACK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PersonalCenterActivity.this, MainActivity.class));
             }
         });
     }

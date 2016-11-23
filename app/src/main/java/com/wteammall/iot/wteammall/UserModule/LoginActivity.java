@@ -18,10 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                         username = " ";
                         password = " ";
                         vCode = " ";
-                        JSONObject jsonObject = new JSONObject();
+
                         StringReader stringReader = new StringReader(result);
                         JsonReader jsonReader = new JsonReader(stringReader);
                         jsonReader.beginObject();
@@ -208,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
         BT_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
 
@@ -281,10 +280,5 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void setErrorTVInvisiable(){
-        TV_UserNameError.setVisibility(View.INVISIBLE);
-        TV_PasswordError.setVisibility(View.INVISIBLE);
-        TV_VCodeError.setVisibility(View.INVISIBLE);
-    }
 
 }

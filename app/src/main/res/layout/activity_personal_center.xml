@@ -4,33 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wteammall.iot.wteammall.UserModule.PersonalCenterActivity">
+    tools:context=".UserModule.PersionalCenter.PersonalCenterActivity">
 
-    <ImageView
-        android:id="@+id/iv_persion_head"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="40dp"
-        android:src="@mipmap/login_head"
-        android:layout_gravity="center"/>
-    <TextView
-        android:id="@+id/tv_persion_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="用户名"/>
-
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/black"/>
+        android:layout_height="50dp"
+        android:background="@color/grey">
+
+        <TextView
+            android:id="@+id/tv_per_center_title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="＜"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="个人中心"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ly_persion_persioninfo"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
 
         <TextView
             android:layout_width="0dp"
@@ -39,6 +44,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
+            android:textSize="20sp"
             android:text="个人信息"/>
         <TextView
             android:layout_width="0dp"
@@ -47,6 +53,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:layout_marginRight="20dp"
+            android:textSize="20sp"
             android:text=">"/>
 
     </LinearLayout>
@@ -54,13 +61,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:background="@color/grey"/>
 
     <LinearLayout
         android:id="@+id/ly_persion_persionintegral"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
 
         <TextView
             android:layout_width="0dp"
@@ -69,36 +77,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:text="我的优惠券"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:gravity="right"
-            android:layout_marginRight="20dp"
-            android:text=">"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
-
-    <LinearLayout
-        android:id="@+id/ly_persion_persioncoupon"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:gravity="left"
-            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
             android:text="我的积分"/>
         <TextView
             android:layout_width="0dp"
@@ -107,6 +86,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:layout_marginRight="20dp"
+            android:textSize="20sp"
             android:text=">"/>
 
     </LinearLayout>
@@ -114,13 +94,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:background="@color/grey"/>
 
     <LinearLayout
-        android:id="@+id/ly_persion_persionmsg"
+        android:id="@+id/ly_persion_persioncoupon"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
 
         <TextView
             android:layout_width="0dp"
@@ -129,7 +110,8 @@
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
-            android:text="我的消息"/>
+            android:textSize="20sp"
+            android:text="我的优惠券"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -137,6 +119,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:layout_marginRight="20dp"
+            android:textSize="20sp"
             android:text=">"/>
 
     </LinearLayout>
@@ -144,13 +127,56 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:background="@color/grey"/>
+
+    <LinearLayout
+        android:id="@+id/ly_persion_persionmsg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:text="我的消息"/>
+        <TextView
+            android:id="@+id/tv_persioncenter_msg_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:background="@color/red"
+            android:textSize="20sp"
+            android:text="4" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:text=">"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
 
     <LinearLayout
         android:id="@+id/ly_persion_persionoder"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
 
         <TextView
             android:layout_width="0dp"
@@ -159,6 +185,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
+            android:textSize="20sp"
             android:text="我的订单"/>
         <TextView
             android:layout_width="0dp"
@@ -167,6 +194,7 @@
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:layout_marginRight="20dp"
+            android:textSize="20sp"
             android:text=">"/>
 
     </LinearLayout>
@@ -174,7 +202,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:background="@color/grey"/>
 
 
 </LinearLayout>

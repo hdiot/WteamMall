@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.wteammall.iot.wteammall.UserModule.PersionalCenter.PersionCouponActivity;
+
 /**
  * 启动界面（*闪屏页面）
  * 可以在启动页面添加版本更新等活动

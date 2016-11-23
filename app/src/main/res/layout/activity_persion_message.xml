@@ -4,24 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wteammall.iot.wteammall.UserModule.PersionMessageActivity">
+    tools:context=".UserModule.PersionalCenter.PersionMessageActivity">
 
-    <include layout="@layout/register_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:background="@android:color/darker_gray">
+        <TextView
+            android:id="@+id/tv_per_msg_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:text="＜"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="我的消息"/>
 
+        <TextView
+            android:id="@+id/tv_per_msg_mainpage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="主页"/>
+
+    </RelativeLayout>
     <ListView
         android:id="@+id/lv_persion_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="发送者"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="内容"/>
     </ListView>
 
 

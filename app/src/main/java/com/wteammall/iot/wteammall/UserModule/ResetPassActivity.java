@@ -83,6 +83,7 @@ public class ResetPassActivity extends AppCompatActivity {
         getVCode();
     }
 
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -93,7 +94,6 @@ public class ResetPassActivity extends AppCompatActivity {
             VCode_E = " ";
             NewPassword_E = " ";
             EmailCode_E = " ";
-
             switch (msg.what) {
 
                 case 0:
@@ -137,6 +137,15 @@ public class ResetPassActivity extends AppCompatActivity {
 
                         }else{
                             Succeed = jsonReader.nextString();
+                            if(Succeed.contains("成功")){
+                                ET_UserName.setEnabled(false);
+                                ET_Email.setEnabled(false);
+                                ET_VCode.setEnabled(false);
+                                IV_VCode.setEnabled(false);
+                                ET_NewPassword.setEnabled(true);
+                                TV_NewPassError.setEnabled(true);
+                                BT_ResetPass.setEnabled(true);
+                            }
                             Toast.makeText(ResetPassActivity.this,Succeed,Toast.LENGTH_SHORT).show();
                             //跳转至主页面
                         }
@@ -179,6 +188,12 @@ public class ResetPassActivity extends AppCompatActivity {
                                 }
                             }
                             jsonReader.endObject();
+
+                            if(Succeed.contains("成功")){
+                                ET_Email.setEnabled(true);
+                                ET_VCode.setEnabled(true);
+                                IV_VCode.setEnabled(true);
+                            }
                         }
                         jsonReader.endObject();
                     } catch (IOException e) {
@@ -192,8 +207,10 @@ public class ResetPassActivity extends AppCompatActivity {
             TV_NameError.setText(UserName_E);
             TV_EmailError.setText(Email_E);
             TV_MCodeError.setText(EmailCode_E);
+
         }
     };
+
 
     public void initView() {
 
@@ -271,7 +288,7 @@ public class ResetPassActivity extends AppCompatActivity {
                     FormBody requestBody = new FormBody.Builder()
                             .add("username", UserName)
                             .add("newpass", NewPassword)
-                            .add("indentifycode", EmailCode)
+                            .add("identifycode", EmailCode)
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)
@@ -340,9 +357,7 @@ public class ResetPassActivity extends AppCompatActivity {
                         throw new IOException("Unexpected code " + response);
                     }
                 } catch (IOException e) {
-                    Message message = new Message();
-                    message.what = 0;
-                    handler.handleMessage(message);
+                    handler.sendEmptyMessage(0);
                     e.printStackTrace();
                 }
             }
@@ -395,7 +410,6 @@ public class ResetPassActivity extends AppCompatActivity {
                     handler.sendEmptyMessage(0);
                     Log.d("返回结果", "GG");
                     e.printStackTrace();
-
                 }
             }
         }).start();
