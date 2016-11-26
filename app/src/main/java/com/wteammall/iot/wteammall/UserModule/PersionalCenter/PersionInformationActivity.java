@@ -9,7 +9,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wteammall.iot.wteammall.Bean.MyUserInfoBean;
+import com.wteammall.iot.wteammall.Bean.UserBean.MyUserInfoBean;
 import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.io.StringReader;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -38,7 +39,6 @@ public class PersionInformationActivity extends AppCompatActivity {
     TextView TV_AccountStatus;          //账号状态
     TextView TV_RegisterTime;           //注册时间
     TextView TV_ChangePass;             //修改密码
-    TextView TV_Points;                 //积分
 
     Button BT_Signing;                  //签到按钮
     Button BT_CheckEmail;               //邮箱验证按钮
@@ -49,19 +49,20 @@ public class PersionInformationActivity extends AppCompatActivity {
     TextView TV_TitleBack;              //标题栏返回按键
     TextView TV_TitleToMain;            //标题栏跳转主页按键
 
-    String IMEI;
-    String UserName;
+    MyUserInfoBean userInfoBean;         //用户信息容器
 
-    MyUserInfoBean userInfoBean = new MyUserInfoBean();          //用户信息容器
+    String IMEI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persion_informatio);
 
+        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+
         initView();
         setListener();
-        getPersonalInfo();
+        getPersionInfo();
     }
 
 
@@ -69,34 +70,16 @@ public class PersionInformationActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            //Log.d("------",msg.obj.toString());
             switch (msg.what) {
                 case 0:
                     Toast.makeText(PersionInformationActivity.this, "网络出错", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    parseJson(msg.obj.toString());
-                    TV_HeaderName.setText(userInfoBean.getUserName()+"，您好");
-                    TV_UserName.setText(userInfoBean.getUserName());
-                    TV_Email.setText(userInfoBean.getEmail());
-                    TV_RegisterTime.setText(userInfoBean.getRegisterTime());
-                    TV_Points.setText(userInfoBean.getPoints()+" ");
-                    if (userInfoBean.getSignStatus()){
-                        TV_SignStatus.setText("已签到");
-                    }else {
-                        TV_SignStatus.setText("未签到");
-                    }
-                    if(userInfoBean.getAccountStatus()==1){
-                        TV_AccountStatus.setText("已验证");
-                    }else {
-                        TV_AccountStatus.setText("未验证");
-                    }
-                    Log.d("Signed",(userInfoBean.getSignStatus()+"+"));
-                    BT_Signing.setEnabled(!userInfoBean.getSignStatus());
-                    if(userInfoBean.getAccountStatus()==0){
-                        BT_CheckEmail.setEnabled(true);
-                    }else {
-                        BT_CheckEmail.setEnabled(false);
+                    try {
+                        JSONObject jsonObject = new JSONObject((String)msg.obj);
+                        Toast.makeText(PersionInformationActivity.this,jsonObject.get("msg").toString(),Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case 2:
@@ -120,7 +103,6 @@ public class PersionInformationActivity extends AppCompatActivity {
         TV_AccountStatus = (TextView) findViewById(R.id.tv_per_info_account_status);
         TV_RegisterTime = (TextView) findViewById(R.id.tv_per_info_register_time);
         TV_HeaderName = (TextView) findViewById(R.id.tv_per_info_headername);
-        TV_Points = (TextView) findViewById(R.id.tv_per_info_points);
 
         IV_Header = (ImageView) findViewById(R.id.iv_per_info_header);
         BT_Signing = (Button) findViewById(R.id.bt_per_info_signing);
@@ -170,45 +152,40 @@ public class PersionInformationActivity extends AppCompatActivity {
     /**
      * 获取个人信息
      */
-    public void getPersonalInfo() {
-        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    FormBody requestBody = new FormBody.Builder()
-                            .add("username", "haha")
-                            .add("token", "1234567890")
-                            .build();
-                    Request request = new Request.Builder()
-                            .post(requestBody)
-                            .url(ValueUtils.URL_USERINFO)
-                            .build();
-
-                    Response response = okHttpClient
-                            .newCall(request)
-                            .execute();
-                    if (response.isSuccessful()) {
-                        Message message = new Message();
-                        message.what = 1;
-                        message.obj = response.body().string();
-                        handler.sendMessage(message);
-                    } else {
-                        Looper.prepare();
-                        handler.sendEmptyMessage(0);
-                        Looper.loop();
-                    }
-                } catch (IOException e) {
-                    Looper.prepare();
-                    handler.sendEmptyMessage(0);
-                    Looper.loop();
-                    e.printStackTrace();
-                }
+    public void getPersionInfo(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        userInfoBean = (MyUserInfoBean) bundle.get("UserInfoBean");
+        if(userInfoBean != null){
+            TV_HeaderName.setText(userInfoBean.getUserName()+"，您好");
+            TV_UserName.setText(userInfoBean.getUserName());
+            TV_Email.setText(userInfoBean.getEmail());
+            TV_RegisterTime.setText(userInfoBean.getRegisterTime());
+            if (userInfoBean.getSignStatus()){
+                TV_SignStatus.setText("已签到");
+            }else {
+                TV_SignStatus.setText("未签到");
             }
-        }).start();
+            if(userInfoBean.getAccountStatus()==1){
+                TV_AccountStatus.setText("已验证");
+            }else {
+                TV_AccountStatus.setText("未验证");
+            }
+            Log.d("Signed",(userInfoBean.getSignStatus()+"+"));
+            BT_Signing.setEnabled(!userInfoBean.getSignStatus());
+            if(userInfoBean.getAccountStatus()==0){
+                BT_CheckEmail.setEnabled(true);
+            }else {
+                BT_CheckEmail.setEnabled(false);
+            }
+
+            getHeaderImg();
+        }else {
+            Toast.makeText(PersionInformationActivity.this,"好像出了点小问题",Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     public void getHeaderImg() {
         new Thread(new Runnable() {
@@ -241,82 +218,48 @@ public class PersionInformationActivity extends AppCompatActivity {
      * 执行签到
      */
     public void Signing() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    FormBody formBody = new FormBody.Builder()
+                            .add("username",userInfoBean.getUserName())
+                            .add("token",IMEI)
+                            .build();
+                    Request request = new Request.Builder()
+                            .post(formBody)
+                            .url(ValueUtils.URL_USER_SIGN)
+                            .build();
+                    Response response = okHttpClient.newCall(request).execute();
+                    if (response.isSuccessful()){
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = response.body().string();
+                        handler.sendMessage(message);
+                    }else{
+                        handler.sendEmptyMessage(0);
+                    }
+                } catch (IOException e) {
+                    handler.sendEmptyMessage(0);
+                    e.printStackTrace();
+                }
+            }
+        }){
 
+        }.start();
     }
 
     /**
      * 执行邮箱验证
      */
     public void CheckMail() {
-
+        Intent intent = new Intent(PersionInformationActivity.this,CheckEmailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("UserInfoBean",userInfoBean);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
-    /**
-     * 解析请求结果的Json
-     */
-    public void parseJson(String jsonString) {
-        Log.d("jsonString",jsonString);
-        try {
-            StringReader stringReader = new StringReader(jsonString);
-            JsonReader jsonReader = new JsonReader(stringReader);
-            jsonReader.beginObject();
-            String info;
-            while (jsonReader.hasNext()){
-                info = jsonReader.nextName();
-                if(info.contains("user")){
-                    jsonReader.beginObject();
-                    String key;
-                    int i = 1;
-                    while (jsonReader.hasNext()){
-                        Log.d("i",i+"");
-                        key = jsonReader.nextName();
-                        Log.d("i",i+"="+key);
-                        if (key.contains("email")){
-                            Log.d("i",i+"-1");
-                            userInfoBean.setEmail(jsonReader.nextString());
-                            Log.d("i",i+userInfoBean.getEmail());
-                        }else  if (key.contains("headimgurl")){
-                            Log.d("i",i+"-2");
-                            userInfoBean.setHeaderImgUrl(jsonReader.nextString());
-                            getHeaderImg();
-                            Log.d("HEADURL",userInfoBean.getHeaderImgUrl());
-                        }else if (key.contains("points")){
-                            Log.d("i",i+"-3");
-                            userInfoBean.setPoints(jsonReader.nextInt());
-                        }else if (key.contains("register")){
-                            Log.d("i",i+"-4");
-                            userInfoBean.setRegisterTime(jsonReader.nextString());
-                        }else if (key.contains("signed")){
-                            Log.d("i",i+"-5");
-                            userInfoBean.setSignStatus(jsonReader.nextBoolean());
-                        }else if (key.contains("status")){
-                            Log.d("i",i+"-6");
-                            userInfoBean.setAccountStatus(jsonReader.nextInt());
-                        }else if (key.contains("username")){
-                            Log.d("i",i+"-7");
-                            userInfoBean.setUserName(jsonReader.nextString());
-                        }
-                        i++;
-                    }
-                    jsonReader.endObject();
-
-                    Log.d("user",userInfoBean.toString());
-                }else if (info.contains("error")){
-                    jsonReader.beginObject();
-                    String msgName = jsonReader.nextName();
-                    String msg = jsonReader.nextString();
-
-                    Log.d("msg",msg);
-                }else if (info.contains("underwayTask")){
-                    jsonReader.nextInt();
-                }else if (info.contains("unReadMessage")){
-                    jsonReader.nextInt();
-                }
-            }
-            jsonReader.endObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

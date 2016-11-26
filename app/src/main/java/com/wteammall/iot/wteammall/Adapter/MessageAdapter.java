@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.wteammall.iot.wteammall.Bean.MyMessageBean;
+import com.wteammall.iot.wteammall.Bean.MessageBean.UserMessages;
 import com.wteammall.iot.wteammall.R;
-
-import java.util.List;
 
 /**
  * Created by I0T on 2016/11/23.
@@ -18,23 +16,23 @@ import java.util.List;
 public class MessageAdapter extends BaseAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
-    List<MyMessageBean> mMessageList;
+    UserMessages mUserMessages;
     ViewHolder mViewHolder;
 
-    public MessageAdapter(Context context,List<MyMessageBean>messagelist) {
+    public MessageAdapter(Context context,UserMessages userMessages) {
         this.mContext = context;
-        this.mMessageList = messagelist;
+        this.mUserMessages = userMessages;
         this.mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return mMessageList.size();
+        return mUserMessages.getmMessageList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mMessageList.get(i);
+        return mUserMessages.getmMessageList().get(i);
     }
 
     @Override
@@ -48,21 +46,21 @@ public class MessageAdapter extends BaseAdapter {
         mViewHolder = new ViewHolder();
 
         view  = mLayoutInflater.inflate(R.layout.listview_item_per_msg,null);
+        mViewHolder.TV_Name = (TextView) view.findViewById(R.id.tv_per_msg_name);
+        mViewHolder.TV_Time = (TextView) view.findViewById(R.id.tv_per_msg_time);
+        mViewHolder.TV_Type = (TextView) view.findViewById(R.id.tv_per_msg_type);
 
-        mViewHolder.Sender = (TextView) view.findViewById(R.id.tv_per_msg_sender);
-        mViewHolder.Content = (TextView) view.findViewById(R.id.tv_per_msg_content);
-        mViewHolder.Time = (TextView) view.findViewById(R.id.tv_per_msg_time);
+        mViewHolder.TV_Time.setText(mUserMessages.getmMessageList().get(i).getAcceptTime());
+        mViewHolder.TV_Name.setText(mUserMessages.getmMessageList().get(i).getmMessage().getName());
+        mViewHolder.TV_Type.setText(mUserMessages.getmMessageList().get(i).getmMessage().getType());
 
-        mViewHolder.Sender.setText(mMessageList.get(i).getSender());
-        mViewHolder.Content.setText(mMessageList.get(i).getContext());
-        mViewHolder.Time.setText(mMessageList.get(i).getTime());
 
         return view;
     }
 
     public final class ViewHolder {
-        public TextView Sender;
-        public TextView Content;
-        public TextView Time;
+        TextView TV_Type;
+        TextView TV_Name;
+        TextView TV_Time;
     }
 }

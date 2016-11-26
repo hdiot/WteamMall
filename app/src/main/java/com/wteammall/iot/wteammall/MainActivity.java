@@ -3,6 +3,7 @@ package com.wteammall.iot.wteammall;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +19,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                }
+            }
+        }
 
         Button PersionalCenter = (Button) findViewById(R.id.persionnalcentern);
         Button Login = (Button) findViewById(R.id.login);

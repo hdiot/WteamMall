@@ -46,7 +46,9 @@
             android:launchMode="singleInstance" />
         <activity android:name=".UserModule.ResetPassActivity" />
         <activity android:name=".UserModule.PersionalCenter.PersionIntegralActivity" />
-        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity"></activity>
+        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity" />
+        <activity android:name=".UserModule.PersionalCenter.PersionTaskActivity"></activity>
+        <activity android:name=".UserModule.PersionalCenter.CheckEmailActivity"></activity>
     </application>
 
 </manifest>
