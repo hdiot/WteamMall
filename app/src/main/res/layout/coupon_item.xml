@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/coupon_view"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#01579b"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
+
+        <RelativeLayout
+            android:id="@+id/base_swipe_item_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/coupon_button"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/coupon_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100积分"
+                    android:textColor="@android:color/white"
+                    android:textSize="36sp"
+                    android:textStyle="normal|italic" />
+
+                <TextView
+                    android:id="@+id/coupon_satisfy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/coupon_discount"
+                    android:text="满1000积分"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="normal|italic" />
+
+
+                <TextView
+                    android:id="@+id/coupon_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="2016.11.11-2016.11.27"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="normal|italic" />
+
+
+                <TextView
+                    android:id="@+id/coupon_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/coupon_date"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="全品类"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/coupon_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="抵用券"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/coupon_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="20/100"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/coupon_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/coupon_date"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="每人限领1张"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/coupon_button"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorAccent"
+                android:text="领取"
+                android:textColor="@color/white" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
