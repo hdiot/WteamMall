@@ -26,8 +26,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleInstance"
             android:label="@string/title_activity_main"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
 
         />
@@ -54,7 +54,7 @@
             android:launchMode="singleInstance" />
         <activity android:name=".UserModule.ResetPassActivity" />
         <activity android:name=".UserModule.PersionalCenter.PersionIntegralActivity" />
-        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity">
+        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity" />
             <activity
                 android:name=".CouponModule.CouponCenter"
                 android:label="@string/title_activity_coupon_center"
