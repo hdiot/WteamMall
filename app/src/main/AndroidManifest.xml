@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wteammall.iot.wteammall">
+    <!-- if you want to load images from the internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- if you want to load images from a file OR from the internet -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -22,7 +26,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleInstance"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        />
         <activity
             android:name=".UserModule.RegisterActivity"
             android:launchMode="singleInstance" />
@@ -46,7 +54,11 @@
             android:launchMode="singleInstance" />
         <activity android:name=".UserModule.ResetPassActivity" />
         <activity android:name=".UserModule.PersionalCenter.PersionIntegralActivity" />
-        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity"></activity>
+        <activity android:name=".UserModule.PersionalCenter.ChangPassActivity">
+            <activity
+                android:name=".CouponModule.CouponCenter"
+                android:label="@string/title_activity_coupon_center"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
