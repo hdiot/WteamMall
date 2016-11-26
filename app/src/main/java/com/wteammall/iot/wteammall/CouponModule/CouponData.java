@@ -1,9 +1,7 @@
 package com.wteammall.iot.wteammall.CouponModule;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by liupe on 2016/11/24.
@@ -12,81 +10,127 @@ import java.util.Set;
 public class CouponData implements Serializable {
 
 
+    /**
+     * beginTime : 2016-11-23T18:23:06
+     * endTime : 2017-01-01T00:00:00
+     * function : 1
+     * id : 8a8865865890b5d5015890b5d7b90000
+     * maxGetNums : 3
+     * name : 满1999减500
+     * nums : 999
+     * range : []
+     * remainNums : 999
+     * remission : 500
+     * satisfy : 1999
+     * discount : 8
+     */
+
+    private String beginTime;
+    private String endTime;
+    private int function;
     private String id;
-    private String name;//名字
-    private String detail;//优惠券详情
-    private int function;//作用，1表示满减，2表示打折
-    private BigDecimal discount;//折扣
-    private BigDecimal satisfy; //满多少
-    private BigDecimal remission;//减多少
-    private Date beginTime;//最早使用时间
-    private Date endTime;//最晚使用时间
-    private int nums; //优惠券数量
-    private int remainNums;//剩余数量
-    private int maxGetNums;//每人限制领取数量
-    private String range;
+    private int maxGetNums;
+    private String name;
+    private int nums;
+    private int remainNums;
+    private int remission;
+    private int satisfy;
+    private int discount;
+    private List<String> range;
 
-    public CouponData(int function, int maxGetNums, int remainNums, String range, int nums, Date endTime, Date beginTime, BigDecimal remission, BigDecimal discount) {
-        this.function = function;
-        this.maxGetNums = maxGetNums;
-        this.remainNums = remainNums;
-        this.range = range;
-        this.nums = nums;
-        this.endTime = endTime;
+    public String getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
-        this.remission = remission;
-        this.discount = discount;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public BigDecimal getDiscount() {
-        return discount;
-    }
-
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public int getFunction() {
         return function;
     }
 
-    public String getRange() {
-        return range;
-    }
-
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public int getRemainNums() {
-        return remainNums;
-    }
-
-    public int getMaxGetNums() {
-        return maxGetNums;
-    }
-
-    public int getNums() {
-        return nums;
-    }
-
-    public String getRemission() {
-        return remission.toString();
+    public void setFunction(int function) {
+        this.function = function;
     }
 
     public String getId() {
         return id;
     }
 
-    public BigDecimal getSatisfy() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getMaxGetNums() {
+        return maxGetNums;
+    }
+
+    public void setMaxGetNums(int maxGetNums) {
+        this.maxGetNums = maxGetNums;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getNums() {
+        return nums;
+    }
+
+    public void setNums(int nums) {
+        this.nums = nums;
+    }
+
+    public int getRemainNums() {
+        return remainNums;
+    }
+
+    public void setRemainNums(int remainNums) {
+        this.remainNums = remainNums;
+    }
+
+    public int getRemission() {
+        return remission;
+    }
+
+    public void setRemission(int remission) {
+        this.remission = remission;
+    }
+
+    public int getSatisfy() {
         return satisfy;
+    }
+
+    public void setSatisfy(int satisfy) {
+        this.satisfy = satisfy;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public List<?> getRange() {
+        return range;
+    }
+
+    public void setRange(List<String> range) {
+        this.range = range;
     }
 }

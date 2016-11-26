@@ -16,6 +16,8 @@ import com.wteammall.iot.wteammall.R;
 
 import java.util.List;
 
+import static android.R.attr.data;
+
 
 /**
  * Created by liupe on 2016/11/24.
@@ -45,6 +47,7 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
         String amount;
         String maxGetNums;
         String satisfy;
+        String remission;
 
         //对信息进行处理
 
@@ -53,8 +56,12 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
         else type = "打折券";
 
         //日期
-        date = Coupones.get(i).getBeginTime().getYear() + "." + Coupones.get(i).getBeginTime().getMonth() + "." + Coupones.get(i).getBeginTime().getDate()
-                + "-" + Coupones.get(i).getEndTime().getYear() + "." + Coupones.get(i).getBeginTime().getMonth() + "." + Coupones.get(i).getBeginTime().getDate();
+       /* date = Coupones.get(i).getBeginTime().getYear() + "." + Coupones.get(i).getBeginTime().getMonth() + "." + Coupones.get(i).getBeginTime().getDate()
+                + "-" + Coupones.get(i).getEndTime().getYear() + "." + Coupones.get(i).getBeginTime().getMonth() + "." + Coupones.get(i).getBeginTime().getDate();*/
+        String beginTime = Coupones.get(i).getBeginTime();
+        String endTIme = Coupones.get(i).getEndTime();
+
+        date = beginTime.substring(0, 10) + "至" + endTIme.substring(0, 10);
 
         //数量
         amount = Coupones.get(i).getRemainNums() + "/" + Coupones.get(i).getNums();
@@ -62,17 +69,21 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
         //限制
         maxGetNums = "每人限领" + Coupones.get(i).getMaxGetNums() + "张";
         //满减限制
-        satisfy = "满" + Coupones.get(i).getSatisfy() + "积分";
+        if (Coupones.get(i).getSatisfy() == 0) satisfy = "";
+        else satisfy = "满" + Coupones.get(i).getSatisfy() + "积分";
 
 
+        //减多少,折扣
+        if (Coupones.get(i).getFunction() == 1) remission = Coupones.get(i).getRemission() + "积分";
+        else remission = Coupones.get(i).getDiscount() + "折";
         //对每一个优惠券项目进行赋值
 
 
         personViewHolder.coupon_date.setText(date);
-        personViewHolder.coupon_range.setText(Coupones.get(i).getRange());
+        personViewHolder.coupon_range.setText("null");
         personViewHolder.coupon_amount.setText(amount);
         personViewHolder.coupon_type.setText(type);
-        personViewHolder.coupon_discount.setText(Coupones.get(i).getRemission() + "分");
+        personViewHolder.coupon_discount.setText(remission);
         personViewHolder.coupon_limit.setText(maxGetNums);
         personViewHolder.coupon_satisfy.setText(satisfy);
 
@@ -93,6 +104,7 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
             @Override
             public void onClick(View v) {
                 // TODO: 2016/11/25 点击后访问网络返回是否成功 若成功则检测获得张数是不是达到最大限制,是就将显示已达到最大领取量并变灰
+
 
                 personViewHolder.getCoupon.setBackgroundColor(Color.GRAY);
 

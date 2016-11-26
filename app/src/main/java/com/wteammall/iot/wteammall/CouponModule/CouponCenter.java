@@ -33,17 +33,31 @@ import static android.R.drawable.ic_popup_sync;
 
 public class CouponCenter extends AppCompatActivity {
 
+    public String json;
+    public int Flag = 0;
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     private RecyclerView recyclerView;
     private List<CouponData> newsList;
     private CouponListAdapter adapter;
-    private String json;
     android.os.Handler handler = new android.os.Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 0:
+                case 1:
                     json = (String) msg.obj;
+                    Flag = 1;
+                    Gson gson = new Gson();
+
+                    newsList = gson.fromJson(json,
+                            new TypeToken<List<CouponData>>() {
+                            }.getType());
+
+                    adapter = new CouponListAdapter(newsList, getBaseContext());
+
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
 
                     // TODO: 2016/11/26 情况
                     break;
@@ -51,8 +65,12 @@ public class CouponCenter extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // TODO: 2016/11/26 testforgetlist
+        initCouponData();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupon_center);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,13 +86,11 @@ public class CouponCenter extends AppCompatActivity {
         });
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
 
 
         recyclerView = (RecyclerView) findViewById(R.id.coupom_list);
 
-
-        // TODO: 2016/11/26 testforgetlist
 
 
         new Thread(new Runnable() {
@@ -83,39 +99,33 @@ public class CouponCenter extends AppCompatActivity {
                 try {
                     Connect a = new Connect();
                     String b;
-
                     b = a.generalget(Url.getAllCoupon);
                     Message c = new Message();
                     c.what = 1;
                     c.obj = b;
                     handler.sendMessage(c);
+
+
                 } catch (IOException el) {
                     ;
                 }
             }
         }).start();
-        initCouponData();
 
-
-        adapter = new CouponListAdapter(newsList, getBaseContext());
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
     }
 
+
     private void initCouponData() {
-        newsList = new ArrayList<>();
+
+
+        //newsList = new ArrayList<>();
         //添加优惠券
+
+
+
+
 /*
-        Gson gson = new Gson();
-        Type listType = new
-
-                TypeToken<LinkedList<sdada>>(){}.getType();
-        newsList=gson.fromJson(json, listType);
-*/
-
         Date d1 = new Date(2016 - 1900, 11 - 1, 9);
         Date d2 = new Date(2017 - 1900, 5 - 1, 9);
         newsList.add(new CouponData(1, 1, 20, "全品类", 100, d2, d1, new BigDecimal(Double.toString(100.0)), new BigDecimal(Double.toString(100.0))));
@@ -124,7 +134,7 @@ public class CouponCenter extends AppCompatActivity {
         newsList.add(new CouponData(0, 1, 20, "全品类", 100, d2, d1, new BigDecimal(Double.toString(100.0)), new BigDecimal(Double.toString(7.0))));
         newsList.add(new CouponData(1, 1, 20, "全品类", 100, d2, d1, new BigDecimal(Double.toString(200.0)), new BigDecimal(Double.toString(7.0))));
         newsList.add(new CouponData(1, 1, 20, "全品类", 100, d2, d1, new BigDecimal(Double.toString(100.0)), new BigDecimal(Double.toString(7.0))));
-
+*/
 
     }
 
