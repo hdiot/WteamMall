@@ -25,7 +25,6 @@ import com.wteammall.iot.wteammall.UserModule.PersionalCenter.PersonalCenterActi
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
