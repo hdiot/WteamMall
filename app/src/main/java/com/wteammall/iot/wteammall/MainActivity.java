@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.wteammall.iot.wteammall.CouponModule.CouponCenter;
 import com.wteammall.iot.wteammall.UserModule.LoginActivity;
+import com.wteammall.iot.wteammall.UserModule.PersionalCenter.PersonalCenterActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -118,6 +119,8 @@ public class MainActivity extends AppCompatActivity
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Intent i = new Intent(MainActivity.this, PersonalCenterActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {
 
