@@ -47,4 +47,6 @@ public class ValueUtils {
     public static String URL_FINISH_TASK = "http://mywebtest.cn/Hall/task_finishTask.action";
     /*用户签到*/
     public static String URL_USER_SIGN = "http://mywebtest.cn/Hall/usersign.action";
+    /*获取订单*/
+    public static String URL_GET_ORDER_LIST = "http://mywebtest.cn/Hall/order_getOrders.action";
 }

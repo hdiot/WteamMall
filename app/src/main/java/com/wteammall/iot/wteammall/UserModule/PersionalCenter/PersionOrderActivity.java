@@ -5,17 +5,31 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.wteammall.iot.wteammall.Bean.UserBean.MyUserInfoBean;
 import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
+import com.wteammall.iot.wteammall.Utils.ValueUtils;
+
+import java.io.IOException;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PersionOrderActivity extends AppCompatActivity {
 
 
     TextView TV_Back;
     TextView TV_ToMain;
+    private MyUserInfoBean mUserInfoBean;
+    private String IMEI;
+    private String UserName;
 
 
     @Override
@@ -23,10 +37,26 @@ public class PersionOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persion_order);
 
+        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        getLsetActivityInfo();
         initView();
         setListener();
         getMyOrderInfo();
+    }
 
+    public void getLsetActivityInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                    UserName = (String) bundle.get("UserName");
+                }
+            }
+        }
     }
 
     Handler handler = new Handler(){
@@ -58,6 +88,44 @@ public class PersionOrderActivity extends AppCompatActivity {
     }
 
     public void getMyOrderInfo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    FormBody requestBody = new FormBody.Builder()
+                            .add("username",UserName)
+                            .add("token", IMEI)
+                            .add("tyep","")
+                            .build();
+                    Request request = new Request.Builder()
+                            .post(requestBody)
+                            .url(ValueUtils.URL_GET_ORDER_LIST)
+                            .build();
+
+                    Response response = okHttpClient
+                            .newCall(request)
+                            .execute();
+                    if (response.isSuccessful()) {
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = response.body().string();
+                        handler.sendMessage(message);
+                    } else {
+                        handler.sendEmptyMessage(0);
+
+                    }
+                } catch (IOException e) {
+                    handler.sendEmptyMessage(0);
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+
+    public void parseJson(String json){
 
     }
 

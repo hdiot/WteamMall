@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,8 @@ public class PersonalCenterActivity extends AppCompatActivity {
 
     Intent mIntent;
     Bundle mBundle;
+    String UserName;
+    private String IMEI;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -59,10 +62,21 @@ public class PersonalCenterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_center);
 
+        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        getUserLoginInfo();
+
         initView();
         setListener();
         getUserInfo();
 
+    }
+
+    public void getUserLoginInfo(){
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        UserName = (String) bundle.get("UserName");
+        Log.d("UserName",UserName);
     }
 
     public void initView() {
@@ -88,6 +102,10 @@ public class PersonalCenterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(PersonalCenterActivity.this, "进入订单页面", Toast.LENGTH_LONG).show();
                 mIntent = new Intent(PersonalCenterActivity.this, PersionOrderActivity.class);
+                mBundle = new Bundle();
+                mBundle.putString("UserName",UserName);
+                Log.d("UserName",UserName);
+                mIntent.putExtras(mBundle);
                 startActivity(mIntent);
             }
         });
@@ -97,7 +115,8 @@ public class PersonalCenterActivity extends AppCompatActivity {
 
                 mIntent = new Intent(PersonalCenterActivity.this, PersionMessageActivity.class);
                 mBundle = new Bundle();
-                mBundle.putSerializable("UserInfoBean", userInfoBean);
+                mBundle.putString("UserName",UserName);
+                Log.d("UserName",UserName);
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);
             }
@@ -107,7 +126,8 @@ public class PersonalCenterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mIntent = new Intent(PersonalCenterActivity.this, PersionInformationActivity.class);
                 mBundle = new Bundle();
-                mBundle.putSerializable("UserInfoBean", userInfoBean);
+                mBundle.putSerializable("UserInfoBean",userInfoBean);
+                Log.d("UserName",UserName);
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);
             }
@@ -118,7 +138,8 @@ public class PersonalCenterActivity extends AppCompatActivity {
                 Toast.makeText(PersonalCenterActivity.this, "进入优惠券页面", Toast.LENGTH_LONG).show();
                 mIntent = new Intent(PersonalCenterActivity.this, PersionCouponActivity.class);
                 mBundle = new Bundle();
-                mBundle.putSerializable("UserInfoBean", userInfoBean);
+                mBundle.putString("UserName",UserName);
+                Log.d("UserName",UserName);
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);
             }
@@ -134,8 +155,13 @@ public class PersonalCenterActivity extends AppCompatActivity {
         LY_Persion_Task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 mIntent = new Intent(PersonalCenterActivity.this,PersionTaskActivity.class);
                 mBundle = new Bundle();
+                mBundle.putString("UserName",UserName);
+                Log.d("UserName",UserName);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
                 startActivity(mIntent);
             }
         });
@@ -166,7 +192,7 @@ public class PersonalCenterActivity extends AppCompatActivity {
                     OrderNum = userInfoBean.getWaitPay();
                     CouponNum = userInfoBean.getUnuseCoupon();
 
-                    TV_TaskNum.setText(MessgageNUm+"");
+                    TV_TaskNum.setText(TaskNum+"");
                     TV_MsgNum.setText(MessgageNUm+"");
                     TV_OrderNum.setText(OrderNum+"");
                     TV_CouponNum.setText(CouponNum+"");
@@ -188,8 +214,8 @@ public class PersonalCenterActivity extends AppCompatActivity {
                 try {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     FormBody requestBody = new FormBody.Builder()
-                            .add("username", "1234")
-                            .add("token", "1234567890")
+                            .add("username",UserName)
+                            .add("token", IMEI)
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)

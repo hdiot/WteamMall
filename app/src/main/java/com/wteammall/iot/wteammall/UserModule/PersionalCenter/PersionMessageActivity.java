@@ -48,6 +48,7 @@ public class PersionMessageActivity extends AppCompatActivity {
     List<UserMeaasgeDetail> mMessageList;
 
     MyUserInfoBean mUserInfoBean;
+    private String UserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,17 @@ public class PersionMessageActivity extends AppCompatActivity {
 
     public void getLsetActivityInfo(){
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        mUserInfoBean = (MyUserInfoBean) bundle.getSerializable("UserInfoBean");
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                    UserName = (String) bundle.get("UserName");
+                }
+            }
+        }
     }
 
     public void initView() {
@@ -122,10 +132,8 @@ public class PersionMessageActivity extends AppCompatActivity {
                 try {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     FormBody requestBody = new FormBody.Builder()
-                            //.add("username", mUserInfoBean.getUserName())
-                            //.add("token", IMEI)
-                            .add("username","1234")
-                            .add("token","1234567890")
+                            .add("username", UserName)
+                            .add("token", IMEI)
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)

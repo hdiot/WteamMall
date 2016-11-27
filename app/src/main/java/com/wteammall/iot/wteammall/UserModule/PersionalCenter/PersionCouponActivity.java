@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.wteammall.iot.wteammall.Adapter.CouponAdapter;
 import com.wteammall.iot.wteammall.Bean.CouponBean.Coupon;
 import com.wteammall.iot.wteammall.Bean.CouponBean.CouponDetail;
 import com.wteammall.iot.wteammall.Bean.CouponBean.Coupons;
+import com.wteammall.iot.wteammall.Bean.UserBean.MyUserInfoBean;
 import com.wteammall.iot.wteammall.R;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
 
@@ -42,15 +44,36 @@ public class PersionCouponActivity extends AppCompatActivity {
     CouponDetail mCouponDetail;
     Coupon mCoupon;
     ArrayList<String> mRange;
+    private MyUserInfoBean mUserInfoBean;
+    private String IMEI;
+    private String UserName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persion_coupon);
+
+        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        getLsetActivityInfo();
         initView();
         setListener();
         getMyCouponInfo();
+    }
+
+    public void getLsetActivityInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                    UserName = (String) bundle.get("UserName");
+                }
+            }
+        }
     }
 
     public void initView() {
@@ -153,8 +176,8 @@ public class PersionCouponActivity extends AppCompatActivity {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     FormBody formBody = new FormBody
                             .Builder()
-                            .add("username", "1234")
-                            .add("token", "1234567890")
+                            .add("username", UserName)
+                            .add("token", IMEI)
                             .build();
                     Request request = new Request
                             .Builder()

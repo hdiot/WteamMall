@@ -1,9 +1,11 @@
 package com.wteammall.iot.wteammall.UserModule.PersionalCenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.JsonReader;
 import android.util.Log;
 import android.widget.ListView;
@@ -13,6 +15,7 @@ import com.wteammall.iot.wteammall.Adapter.TaskAdapter;
 import com.wteammall.iot.wteammall.Bean.TaskBean.Task;
 import com.wteammall.iot.wteammall.Bean.TaskBean.TaskDetail;
 import com.wteammall.iot.wteammall.Bean.TaskBean.Tasks;
+import com.wteammall.iot.wteammall.Bean.UserBean.MyUserInfoBean;
 import com.wteammall.iot.wteammall.R;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
 
@@ -32,6 +35,9 @@ public class PersionTaskActivity extends AppCompatActivity {
     Tasks mTasks;
     TaskDetail mTaskDetail;
     ArrayList<TaskDetail> mTaskDetailList;
+    private MyUserInfoBean mUserInfoBean;
+    private String IMEI;
+    private String UserName;
 
 
     @Override
@@ -39,9 +45,27 @@ public class PersionTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_persion_task);
 
+        IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        getLsetActivityInfo();
+
         initView();
 
         getTaskInfo();
+    }
+
+    public void getLsetActivityInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                    UserName = (String) bundle.get("UserName");
+                }
+            }
+        }
     }
 
     public void initView() {
@@ -81,8 +105,8 @@ public class PersionTaskActivity extends AppCompatActivity {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     FormBody formBody = new FormBody
                             .Builder()
-                            .add("username", "1234")
-                            .add("token", "1234567890")
+                            .add("username", UserName)
+                            .add("token", IMEI)
                             .build();
                     Request request = new Request
                             .Builder()
@@ -129,7 +153,7 @@ public class PersionTaskActivity extends AppCompatActivity {
                             mTaskDetail = new TaskDetail();
                             while (jsonReader.hasNext()) {
                                 key_2 = jsonReader.nextName();
-                                if (key_2.contains("accepttime")) {
+                                if (key_2.contains("acceptTime")) {
                                     mTaskDetail.setAcceptTime(jsonReader.nextString());
                                 } else if (key_2.contains("id")) {
                                     mTaskDetail.setID(jsonReader.nextString());

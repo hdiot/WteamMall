@@ -15,6 +15,11 @@ import com.wteammall.iot.wteammall.UserModule.PersionalCenter.PersonalCenterActi
  */
 public class MainActivity extends AppCompatActivity {
 
+
+    private Intent mIntent;
+    private Bundle mBundle;
+    private String UserName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("UserName","bundle");
                 if (bundle.get("UserName") != null){
                     Log.d("UserName",bundle.getString("UserName"));
+                    UserName = (String) bundle.get("UserName");
                 }
             }
         }
@@ -38,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
         PersionalCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
+                mIntent = new Intent(MainActivity.this, PersonalCenterActivity.class);
+                mBundle = new Bundle();
+                mBundle.putString("UserName",UserName);
+                Log.d("UserName",UserName);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
             }
         });
 

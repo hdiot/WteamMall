@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wteammall.iot.wteammall.Bean.UserBean.MyUserInfoBean;
 import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
@@ -54,11 +55,14 @@ public class ChangPassActivity extends AppCompatActivity {
     String VCode_E;
 
     SharedPreferences sharedPreferences;
+    private MyUserInfoBean mUserInfoBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chang_pass);
+
+        getLsetActivityInfo();
 
         initView();
 
@@ -80,7 +84,7 @@ public class ChangPassActivity extends AppCompatActivity {
             VCode_E = " ";
             switch (msg.what) {
                 case 0:
-                    Toast.makeText(ChangPassActivity.this,"网络错误",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChangPassActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     parseJson(msg.obj.toString());
@@ -93,6 +97,12 @@ public class ChangPassActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void getLsetActivityInfo() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        mUserInfoBean = (MyUserInfoBean) bundle.getSerializable("UserInfoBean");
+    }
 
     public void initView() {
 
@@ -114,14 +124,14 @@ public class ChangPassActivity extends AppCompatActivity {
         TV_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChangPassActivity.this,PersionInformationActivity.class));
+                startActivity(new Intent(ChangPassActivity.this, PersionInformationActivity.class));
             }
         });
 
         TV_ToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChangPassActivity.this,MainActivity.class));
+                startActivity(new Intent(ChangPassActivity.this, MainActivity.class));
             }
         });
 
@@ -132,12 +142,12 @@ public class ChangPassActivity extends AppCompatActivity {
             }
         });
 
-       IV_VCode.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               getVCode(sharedPreferences);
-           }
-       });
+        IV_VCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getVCode(sharedPreferences);
+            }
+        });
     }
 
     public void changePass() {
@@ -152,7 +162,7 @@ public class ChangPassActivity extends AppCompatActivity {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     FormBody requestBody = new FormBody
                             .Builder()
-                            .add("username", "1234")
+                            .add("username", mUserInfoBean.getUserName())
                             .add("password", OldPass)
                             .add("newpass", NewPass)
                             .add("vCode", VCode)
@@ -185,6 +195,7 @@ public class ChangPassActivity extends AppCompatActivity {
             }
         }).start();
     }
+
     public void getVCode(final SharedPreferences sp) {
 
         new Thread(new Runnable() {
@@ -240,9 +251,9 @@ public class ChangPassActivity extends AppCompatActivity {
                         NewPass_E = jsonReader.nextString();
                     } else if (key.contains("vCode")) {
                         VCode_E = jsonReader.nextString();
-                    }else if (key.contains("password")){
+                    } else if (key.contains("password")) {
                         OldPass_E = jsonReader.nextString();
-                        Log.d("newPass",OldPass_E);
+                        Log.d("newPass", OldPass_E);
                     }
                     i++;
                 }
@@ -252,7 +263,7 @@ public class ChangPassActivity extends AppCompatActivity {
                 jsonReader.beginObject();
                 String msgName = jsonReader.nextName();
                 String msg = jsonReader.nextString();
-                Toast.makeText(ChangPassActivity.this,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangPassActivity.this, msg, Toast.LENGTH_SHORT).show();
                 Log.d("msg", msg);
             }
             jsonReader.endObject();
