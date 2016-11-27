@@ -130,6 +130,7 @@ public class PersonalCenterActivity extends AppCompatActivity {
                 Log.d("UserName",UserName);
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);
+                
             }
         });
         LY_Persion_Coupon.setOnClickListener(new View.OnClickListener() {
