@@ -9,7 +9,11 @@
     <string name="VCODE">验证码</string>
     <string name="BACK">返回</string>
     <string name="TITLE_REGISTER">注册</string>
+    <string name="title_activity_coupon_center">优惠券中心</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_persion_task">PersionTaskActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

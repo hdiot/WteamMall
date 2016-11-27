@@ -30,22 +30,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UserModule.RegisterActivity" />
         <activity android:name=".UserModule.LoginActivity" />
-        <activity android:name=".UserModule.PersonalCenterActivity" />
-
-
         <activity
             android:name=".CouponModule.CouponCenter"
             android:label="@string/title_activity_coupon_center"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".MainActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".UserModule.RegisterActivity"
-            android:launchMode="singleInstance" />
-        <activity
-            android:name=".UserModule.LoginActivity"
-            android:launchMode="singleInstance" />
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
         <activity
             android:name=".UserModule.PersionalCenter.PersonalCenterActivity"
             android:launchMode="singleInstance" />
