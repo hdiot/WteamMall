@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.wteammall.iot.wteammall.MainActivity;
 import com.wteammall.iot.wteammall.R;
+import com.wteammall.iot.wteammall.Utils.MD5Utils;
 import com.wteammall.iot.wteammall.Utils.ValueUtils;
 
 import java.io.IOException;
@@ -79,7 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                         if(jsonReader.nextName().contains("msg")){
                             succeed = jsonReader.nextString();
                             Toast.makeText(LoginActivity.this,succeed,Toast.LENGTH_SHORT).show();
-                            //跳转至主页面
+                            if(succeed.contains("成功")){
+                                //跳转至主页面
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("UserName",UserID);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+
                         }else{
                             jsonReader.beginObject();
                             while (jsonReader.hasNext()){
@@ -112,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         //获取android机器码
         IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
 
@@ -120,11 +130,23 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("JSESSIONID", MODE_PRIVATE);
 
-        //
+        //初次获取验证码
         getVCode(sharedPreferences);
 
         //设置监听
         setListener();
+
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d("UserName","intent");
+            Bundle bundle = intent.getExtras();
+            if (bundle != null){
+                Log.d("UserName","bundle");
+                if (bundle.get("UserName") != null){
+                    Log.d("UserName",bundle.getString("UserName"));
+                }
+            }
+        }
 
     }
 
@@ -232,7 +254,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
 
         UserID = ET_UserID.getText().toString();
-        //Password = MD5Utils.encode(ET_Password.getText().toString());
+        Password = MD5Utils.encode(ET_Password.getText().toString());
         Password = ET_Password.getText().toString();
         VCode = ET_VCode.getText().toString();
 
@@ -277,8 +299,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
 
-
     }
-
 
 }

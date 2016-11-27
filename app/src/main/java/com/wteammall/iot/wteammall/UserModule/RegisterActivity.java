@@ -91,7 +91,15 @@ public class RegisterActivity extends AppCompatActivity {
                         if(jsonReader.nextName().contains("msg")){
                             succeed = jsonReader.nextString();
                             Toast.makeText(RegisterActivity.this,succeed,Toast.LENGTH_SHORT).show();
-                            //跳转至主页面
+                            if(succeed.contains("成功")){
+                                //跳转至登录面
+                                Bundle bundle = new Bundle();
+                                bundle.putString("UserName",mName);
+                                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+
                         }else{
                             jsonReader.beginObject();
                             while (jsonReader.hasNext()){
@@ -120,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     break;
                 case 2:
-                    Toast.makeText(RegisterActivity.this,"请检查你的网络",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,"网络出错",Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -229,10 +237,11 @@ public class RegisterActivity extends AppCompatActivity {
                         handler.sendMessage(msg);
 
                     } else {
-                        msg.what = 2;
-                        handler.handleMessage(msg);
+
+                        handler.sendEmptyMessage(2);
                     }
                 } catch (IOException e) {
+                    handler.sendEmptyMessage(2);
                     e.printStackTrace();
                 }
             }
@@ -271,6 +280,7 @@ public class RegisterActivity extends AppCompatActivity {
                         throw new IOException("Unexpected code " + response);
                     }
                 } catch (IOException e) {
+                    handler.sendEmptyMessage(2);
                     e.printStackTrace();
                 }
             }

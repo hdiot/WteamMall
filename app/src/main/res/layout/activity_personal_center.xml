@@ -104,14 +104,24 @@
         android:background="@drawable/slector_item">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
             android:textSize="20sp"
             android:text="我的优惠券"/>
+
+        <TextView
+            android:id="@+id/tv_persion_coupon_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_red_light"
+            android:text="0" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -145,15 +155,15 @@
             android:textSize="20sp"
             android:text="我的消息"/>
         <TextView
-            android:id="@+id/tv_persioncenter_msg_num"
+            android:id="@+id/tv_persion_msg_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:inputType="number"
-            android:background="@color/red"
             android:textSize="20sp"
-            android:text="4" />
+            android:textColor="@android:color/holo_red_light"
+            android:text="0" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -179,14 +189,66 @@
         android:background="@drawable/slector_item">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="left"
             android:layout_marginLeft="20dp"
             android:textSize="20sp"
             android:text="我的订单"/>
+        <TextView
+            android:id="@+id/tv_persion_order_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_red_light"
+            android:text="0" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:text=">"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <LinearLayout
+        android:id="@+id/ly_persion_persiontask"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/slector_item">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:text="我的任务"/>
+        <TextView
+            android:id="@+id/tv_persion_task_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="20sp"
+            android:inputType="number"
+            android:text="0"/>
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
