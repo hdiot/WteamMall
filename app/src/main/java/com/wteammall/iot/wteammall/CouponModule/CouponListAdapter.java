@@ -40,7 +40,7 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
     }
 
     @Override
-    public void onBindViewHolder(final CouponListAdapter.CouponViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(final CouponListAdapter.CouponViewHolder personViewHolder, final int i) {
         final int j = i;
         String type;
         String date;
@@ -80,7 +80,7 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
 
 
         personViewHolder.coupon_date.setText(date);
-        personViewHolder.coupon_range.setText("null");
+        personViewHolder.coupon_range.setText("全品类");
         personViewHolder.coupon_amount.setText(amount);
         personViewHolder.coupon_type.setText(type);
         personViewHolder.coupon_discount.setText(remission);
@@ -106,7 +106,16 @@ public class CouponListAdapter extends RecyclerView.Adapter<CouponListAdapter.Co
                 // TODO: 2016/11/25 点击后访问网络返回是否成功 若成功则检测获得张数是不是达到最大限制,是就将显示已达到最大领取量并变灰
 
 
+                if (Coupones.get(i).getMaxGetNums() != 0) {
+                    Coupones.get(i).setMaxGetNums(Coupones.get(i).getMaxGetNums() - 1);
+                    Coupones.get(i).setRemainNums(Coupones.get(i).getRemainNums() - 1);
+                    personViewHolder.coupon_amount.setText(Coupones.get(i).getRemainNums() + "/" + Coupones.get(i).getNums());
+
+                }
+                if (Coupones.get(i).getMaxGetNums() == 0) {
                 personViewHolder.getCoupon.setBackgroundColor(Color.GRAY);
+                    personViewHolder.getCoupon.setText("已领至最大值");
+                }
 
 
 
